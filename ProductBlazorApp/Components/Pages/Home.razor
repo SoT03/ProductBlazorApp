@@ -1,9 +1,14 @@
 ﻿@page "/"
+@using ProductBlazorApp.Data
 @using ProductBlazorApp.Models
+@inject ProductService ProductService
+
 
 <PageTitle>Home</PageTitle>
 
 <h3>Lista Produktów</h3>
+
+
 
 @if (products == null)
 {
@@ -22,17 +27,26 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in products)
+            @if (products != null && products.Count > 0)
+            {
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>@product.Description</td>
+                        <td>
+                            <button class="btn btn-warning">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@product.Id</td>
-                    <td>@product.Name</td>
-                    <td>@product.Price</td>
-                    <td>@product.Description</td>
-                    <td>
-                        <button class="btn btn-warning" >Edit</button>
-                        <button class="btn btn-danger" >Delete</button>
-                    </td>
+                    <td colspan="5" class="text-center">No items found.</td>
                 </tr>
             }
         </tbody>
@@ -42,9 +56,13 @@ else
 <button class="btn btn-primary">Add new</button>
 
 @code {
-    private Product[] products = new Product[]
+    private List<Product>? products;
+    
+    
+
+    protected override async Task OnInitializedAsync()
     {
-    new Product { Id = 1, Name = "Laptop", Price = 3000.99m, Description = "Gaming Laptop" },
-    new Product { Id = 2, Name = "Mouse", Price = 99.99m, Description = "Wireless Mouse" }
-    };
+        
+        products = await ProductService.GetProducts();
+    }
 }

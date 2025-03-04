@@ -3,12 +3,19 @@ using ProductBlazorApp.Models;
 
 namespace ProductBlazorApp.Data
 {
-    public class ProductService(ProductContext context)
+    public class ProductService
     {
-        private readonly ProductContext _context = context;
+ 
+        private readonly ProductContext _context;
 
-        
-        public async Task<List<Product>> GetProductsAsync()
+      
+        public ProductService(ProductContext context)
+        {
+            _context = context;
+        }
+
+        // Method to get all products
+        public async Task<List<Product>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
