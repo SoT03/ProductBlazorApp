@@ -1,0 +1,49 @@
+﻿@page "/add"
+@inject NavigationManager NavigationManager
+@inject ProductService ProductService
+@using ProductBlazorApp.Data
+@using Microsoft.AspNetCore.Components.Forms
+@using ProductBlazorApp.Models
+@rendermode InteractiveServer
+
+<h3>Add New Product</h3>
+
+<EditForm Model="newProduct"  FormName="AddProductForm" >
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText class="form-control" @bind-Value="newProduct.Name" />
+        <ValidationMessage For="@(() => newProduct.Name)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <InputNumber class="form-control" @bind-Value="newProduct.Price" />
+        <ValidationMessage For="@(() => newProduct.Price)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <InputTextArea class="form-control" @bind-Value="newProduct.Description" />
+        <ValidationMessage For="@(() => newProduct.Description)" class="text-danger" />
+    </div>
+
+    <button @onclick="SaveProduct" class="btn btn-success">Add Product</button>
+
+    <a href="/" type="button" class="btn btn-secondary" >Cancel</a>
+</EditForm>
+
+@code {
+    private Product newProduct = new Product();
+
+    private async Task SaveProduct()
+    {
+        
+
+        await ProductService.AddProductAsync(newProduct);
+        NavigationManager.NavigateTo("/");
+    }
+
+    
+}

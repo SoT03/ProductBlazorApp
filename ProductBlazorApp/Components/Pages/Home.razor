@@ -53,7 +53,7 @@ else
     </table>
 }
 
-<button class="btn btn-primary">Add new</button>
+<a href="/add" class="btn btn-primary">Add new</a>
 
 @code {
     private List<Product>? products;
@@ -65,4 +65,6 @@ else
         
         products = await ProductService.GetProducts();
     }
+
+
 }

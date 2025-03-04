@@ -19,5 +19,14 @@ namespace ProductBlazorApp.Data
         {
             return await _context.Products.ToListAsync();
         }
+
+        // Method to get add products
+        public async Task AddProductAsync(Product product)
+        {
+           
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            
+        }
     }
 }
