@@ -69,8 +69,8 @@
         {
             newProduct = await ProductService.GetProductByIdAsync(Id.Value) ?? new Product();
         }
-        loading = false;
         isNew = newProduct.Id == 0;
+        loading = false;
     }
 
 

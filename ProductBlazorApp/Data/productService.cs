@@ -43,5 +43,23 @@ namespace ProductBlazorApp.Data
             _context.Products.Update(product);
              await _context.SaveChangesAsync();
         }
+
+        //Method to delete product
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var product = await GetProductByIdAsync(id);
+
+            if(product == null)
+            {
+                return false;
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        
     }
 }
