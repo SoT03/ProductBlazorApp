@@ -4,6 +4,7 @@
 @using ProductBlazorApp.Components.UI
 @inject NavigationManager NavigationManager
 @inject ProductService ProductService
+@inject ApiService ApiService
 @rendermode InteractiveServer
 
 
@@ -57,6 +58,22 @@ else
 }
 
 <a href="/edit" class="btn btn-primary">Add new</a>
+
+
+<button @onclick="GetPost">Pobierz post</button>
+<button @onclick="CreatePost">Utwórz post</button>
+
+@code {
+    private async Task GetPost()
+    {
+        await ApiService.GetPost();
+    }
+
+    private async Task CreatePost()
+    {
+        await ApiService.CreatePost();
+    }
+}
 
 
 @if (showDeleteModal)

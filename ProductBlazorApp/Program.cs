@@ -10,12 +10,15 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ApiService>();
+
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddHttpClient();
 
 
 
