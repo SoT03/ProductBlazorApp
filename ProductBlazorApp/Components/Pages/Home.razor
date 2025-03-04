@@ -1,18 +1,20 @@
 ﻿@page "/"
 @using ProductBlazorApp.Data
 @using ProductBlazorApp.Models
+@inject NavigationManager NavigationManager
 @inject ProductService ProductService
+@rendermode InteractiveServer
 
 
 <PageTitle>Home</PageTitle>
 
-<h3>Lista Produktów</h3>
+<h3>Product List</h3>
 
 
 
 @if (products == null)
 {
-    <p>Ładowanie...</p>
+    <p>Loading...</p>
 }
 else
 {
@@ -37,7 +39,7 @@ else
                         <td>@product.Price</td>
                         <td>@product.Description</td>
                         <td>
-                            <button class="btn btn-warning">Edit</button>
+                            <button class="btn btn-warning" @onclick="() => EditProduct(product.Id)">Edit</button>
                             <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -53,7 +55,7 @@ else
     </table>
 }
 
-<a href="/add" class="btn btn-primary">Add new</a>
+<a href="/edit" class="btn btn-primary">Add new</a>
 
 @code {
     private List<Product>? products;
@@ -64,6 +66,11 @@ else
     {
         
         products = await ProductService.GetProducts();
+    }
+
+    private void EditProduct(int id)
+    {
+        NavigationManager.NavigateTo($"/edit/{id}");
     }
 
 

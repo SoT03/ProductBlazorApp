@@ -8,7 +8,7 @@ namespace ProductBlazorApp.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        [StringLength(40, ErrorMessage = "Name cannot exceed 100 characters")]
+        [StringLength(40, ErrorMessage = "Name cannot exceed 40 characters")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Price is required")]
