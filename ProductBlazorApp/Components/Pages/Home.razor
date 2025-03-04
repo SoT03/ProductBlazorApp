@@ -1,7 +1,50 @@
 ﻿@page "/"
+@using ProductBlazorApp.Models
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h3>Lista Produktów</h3>
 
-Welcome to your new app.
+@if (products == null)
+{
+    <p>Ładowanie...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Description</td>
+                    <td>
+                        <button class="btn btn-warning" >Edit</button>
+                        <button class="btn btn-danger" >Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-primary">Add new</button>
+
+@code {
+    private Product[] products = new Product[]
+    {
+    new Product { Id = 1, Name = "Laptop", Price = 3000.99m, Description = "Gaming Laptop" },
+    new Product { Id = 2, Name = "Mouse", Price = 99.99m, Description = "Wireless Mouse" }
+    };
+}
