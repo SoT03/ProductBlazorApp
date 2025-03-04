@@ -1,0 +1,35 @@
+﻿<div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);" @onclick="HandleBackdropClick">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" @onclick="OnCancel"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>@ProductName</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="OnCancel">Cancel</button>
+                <button class="btn btn-danger" @onclick="OnConfirmDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string ProductName { get; set; } = string.Empty;
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+
+    private async Task OnConfirmDelete()
+    {
+        await OnConfirm.InvokeAsync();
+    }
+
+    private async Task HandleBackdropClick(MouseEventArgs e)
+    {
+        
+        await OnCancel.InvokeAsync();
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using ProductBlazorApp.Data
 @using ProductBlazorApp.Models
+@using ProductBlazorApp.Components.UI
 @inject NavigationManager NavigationManager
 @inject ProductService ProductService
 @rendermode InteractiveServer
@@ -40,7 +41,7 @@ else
                         <td>@product.Description</td>
                         <td>
                             <button class="btn btn-warning" @onclick="() => EditProduct(product.Id)">Edit</button>
-                            <button class="btn btn-danger"  @onclick="() => DeleteProduct(product.Id)">Delete</button>
+                            <button class="btn btn-danger" @onclick="() => ConfirmDelete(product)">Delete</button>
                         </td>
                     </tr>
                 }
@@ -57,14 +58,21 @@ else
 
 <a href="/edit" class="btn btn-primary">Add new</a>
 
+
+@if (showDeleteModal)
+{
+    <ConfirmDeleteModal ProductName="@productToDelete?.Name"
+                        OnConfirm="DeleteProductConfirmed"
+                        OnCancel="CloseModal" />
+}
+
 @code {
     private List<Product>? products;
-
-
+    private bool showDeleteModal = false;
+    private Product? productToDelete;
 
     protected override async Task OnInitializedAsync()
     {
-
         products = await ProductService.GetProducts();
     }
 
@@ -73,11 +81,25 @@ else
         NavigationManager.NavigateTo($"/edit/{id}");
     }
 
-    private async  void DeleteProduct(int id)
+    private void ConfirmDelete(Product product)
     {
-        await ProductService.DeleteProductAsync(id);
-        NavigationManager.Refresh(true);
+        productToDelete = product;
+        showDeleteModal = true;
     }
 
+    private void CloseModal()
+    {
+        showDeleteModal = false;
+        productToDelete = null;
+    }
 
+    private async Task DeleteProductConfirmed()
+    {
+        if (productToDelete != null)
+        {
+            await ProductService.DeleteProductAsync(productToDelete.Id);
+            products = await ProductService.GetProducts(); // Refresh the list
+        }
+        CloseModal();
+    }
 }
