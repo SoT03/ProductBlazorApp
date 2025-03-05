@@ -1,10 +1,11 @@
 ﻿@page "/"
+@using ProductBlazorApp.Components.UI
 @using ProductBlazorApp.Data
 @using ProductBlazorApp.Models
-@using ProductBlazorApp.Components.UI
+@using ProductBlazorApp.Services
 @inject NavigationManager NavigationManager
 @inject ProductService ProductService
-@inject ApiService ApiService
+@inject PostService PostService
 @rendermode InteractiveServer
 
 
@@ -66,12 +67,12 @@ else
 @code {
     private async Task GetPost()
     {
-        await ApiService.GetPost();
+        await PostService.GetPost();
     }
 
     private async Task CreatePost()
     {
-        await ApiService.CreatePost();
+        await PostService.CreatePost();
     }
 }
 

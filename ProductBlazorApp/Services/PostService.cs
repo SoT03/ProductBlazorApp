@@ -2,18 +2,26 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using ProductBlazorApp.Models;
 
-public class ApiService
+
+
+
+
+
+public class PostService
 {
     private readonly HttpClient _httpClient;
-    private readonly ILogger<ApiService> _logger;
+    private readonly ILogger<PostService> _logger;
 
-    public ApiService(HttpClient httpClient, ILogger<ApiService> logger)
+    public PostService(HttpClient httpClient, ILogger<PostService> logger)
     {
         _httpClient = httpClient;
         _logger = logger;
     }
 
+
+    //Get method
     public async Task GetPost()
     {
         var url = "https://jsonplaceholder.typicode.com/posts/1";
@@ -39,6 +47,8 @@ public class ApiService
         }
     }
 
+
+    //Post method
     public async Task CreatePost()
     {
         var url = "https://jsonplaceholder.typicode.com/posts";
@@ -66,10 +76,3 @@ public class ApiService
 
 }
 
-public class Post
-{
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Body { get; set; }
-    public int UserId { get; set; }
-}

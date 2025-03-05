@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProductBlazorApp.Data;
 using ProductBlazorApp.Models;
 
-namespace ProductBlazorApp.Data
+namespace ProductBlazorApp.Services
 {
     public class ProductService
     {

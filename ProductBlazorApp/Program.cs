@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProductBlazorApp.Components;
 using ProductBlazorApp.Data;
+using ProductBlazorApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<ApiService>();
+builder.Services.AddScoped<PostService>();
 
 builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
