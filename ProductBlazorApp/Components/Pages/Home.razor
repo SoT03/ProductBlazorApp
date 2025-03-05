@@ -3,6 +3,7 @@
 @using ProductBlazorApp.Data
 @using ProductBlazorApp.Models
 @using ProductBlazorApp.Services
+@using System.Globalization;
 @inject NavigationManager NavigationManager
 @inject ProductService ProductService
 @inject PostService PostService
@@ -11,58 +12,70 @@
 
 <PageTitle>Home</PageTitle>
 
-<h3>Product List</h3>
 
 
 
-@if (products == null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (products != null && products.Count > 0)
-            {
-                @foreach (var product in products)
+<div class="container">
+    <h3 class="text-center mt-2 mb-5 h1 fw-bold">Product List</h3>
+    @if (products == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr >
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th class="text-end">Price</th>
+                    <th>Description</th>
+                    <th ></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (products != null && products.Count > 0)
+                {
+                    @foreach (var product in products)
+                    {
+                        <tr>
+                            <td>@product.Id</td>
+                            <td>@product.Name</td>
+                            <td class="text-end">@product.Price.ToString("C2", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                            <td>@product.Description</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                <button class="btn btn-warning" @onclick="() => EditProduct(product.Id)">Edit</button>
+                                <button class="btn btn-danger" @onclick="() => ConfirmDelete(product)">Delete</button>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>@product.Id</td>
-                        <td>@product.Name</td>
-                        <td>@product.Price</td>
-                        <td>@product.Description</td>
-                        <td>
-                            <button class="btn btn-warning" @onclick="() => EditProduct(product.Id)">Edit</button>
-                            <button class="btn btn-danger" @onclick="() => ConfirmDelete(product)">Delete</button>
-                        </td>
+                        <td colspan="5" class="text-center">No items found.</td>
                     </tr>
                 }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5" class="text-center">No items found.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+            </tbody>
+        </table>
+    }
 
-<a href="/edit" class="btn btn-primary">Add new</a>
+    <a href="/edit" class="btn btn-primary mb-5">Add new</a>
 
 
-<button @onclick="GetPost">Pobierz post</button>
-<button @onclick="CreatePost">Utwórz post</button>
+    <h2 class="h2 fw-bold mb-4">Api </h2>
+    <div class="d-flex gap-4">
+    <button @onclick="GetPost" class="btn btn-secondary">Get Api Call</button>
+    <button @onclick="CreatePost" class="btn btn-secondary">Post Api Call</button>
+
+    </div>
+
+
+</div>
+
 
 @code {
     private async Task GetPost()
